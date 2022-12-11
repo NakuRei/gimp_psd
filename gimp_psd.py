@@ -115,6 +115,12 @@ class GimpXcf(TempDirMixin, inkex.OutputExtension):
             return
 
         xcf = os.path.join(self.tempdir, "{}.psd".format(self.docname))
+
+        if os.name == 'nt': # NOTE: if Windows
+            xcf = xcf.replace(os.sep,'/')
+            for k, v in pngs.items():
+                pngs[k] = v.replace(os.sep,'/')
+
         script_fu = """
 (tracing 1)
 (define
